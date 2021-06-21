@@ -1,9 +1,12 @@
-import Page from 'material-ui-shell/lib/containers/Page'
-import React from 'react'
-import Scrollbar from 'material-ui-shell/lib/components/Scrollbar/Scrollbar'
-import { useIntl } from 'react-intl'
+import Page from 'material-ui-shell/lib/containers/Page';
+import React,{useContext} from 'react';
+import Scrollbar from 'material-ui-shell/lib/components/Scrollbar/Scrollbar';
+import { useIntl } from 'react-intl';
+import {FirebaseContext} from '../../components/Firebase';
 
 const HomePage = () => {
+  const firebase = useContext(FirebaseContext);
+console.log(firebase)
   const intl = useIntl()
 
   return (

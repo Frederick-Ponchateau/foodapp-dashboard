@@ -4,6 +4,7 @@ import AuthorizedRoute from 'base-shell/lib/components/AuthorizedRoute/Authorize
 import UnauthorizedRoute from 'base-shell/lib/components/UnauthorizedRoute/UnauthorizedRoute'
 import { Route } from 'react-router-dom'
 
+
 const SignIn = lazy(() => import('../pages/SignIn/SignIn'))
 const SignUp = lazy(() => import('../pages/SignUp/SignUp'))
 const PasswordReset = lazy(() => import('../pages/PasswordReset/PasswordReset'))
@@ -13,6 +14,8 @@ const DialogDemo = lazy(() => import('../pages/DialogDemo/DialogDemo'))
 const ToastDemo = lazy(() => import('../pages/ToastDemo/ToastDemo'))
 const FilterDemo = lazy(() => import('../pages/FilterDemo'))
 const ListPageDemo = lazy(() => import('../pages/ListPageDemo'))
+const ListMenu = lazy(() => import('../pages/ListMenu'))
+const ListProduit = lazy(() => import('../pages/ListProduit'))
 const TabsDemo = lazy(() => import('../pages/TabsDemo'))
 const MyAccount = lazy(() => import('../pages/MyAccount/MyAccount'))
 
@@ -32,6 +35,8 @@ const routes = [
   <AuthorizedRoute path="/toast_demo" exact component={ToastDemo} />,
   <AuthorizedRoute path="/filter_demo" exact component={FilterDemo} />,
   <AuthorizedRoute path="/list_page_demo" exact component={ListPageDemo} />,
+  <AuthorizedRoute path="/list_page_menu" exact component={ListMenu} />,
+  <AuthorizedRoute path="/list_page_produit" exact component={ListProduit} />,
   <AuthorizedRoute path="/tabs_demo" exact component={TabsDemo} />,
 ]
 
