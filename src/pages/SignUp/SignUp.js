@@ -1,14 +1,16 @@
-import Button from '@material-ui/core/Button'
-import Page from 'material-ui-shell/lib/containers/Page'
-import Paper from '@material-ui/core/Paper'
-import React, { useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
-import { useAuth } from 'base-shell/lib/providers/Auth'
-import { useHistory } from 'react-router-dom'
-import { useIntl } from 'react-intl'
-import { useMenu } from 'material-ui-shell/lib/providers/Menu'
+import Button from '@material-ui/core/Button';
+import Page from 'material-ui-shell/lib/containers/Page';
+import Paper from '@material-ui/core/Paper';
+import React, { useState,useContext } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from 'base-shell/lib/providers/Auth';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { useMenu } from 'material-ui-shell/lib/providers/Menu';
+import { FirebaseContext } from 'components/Firebase';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SignUp = () => {
+  
   const classes = useStyles()
   const intl = useIntl()
   const history = useHistory()

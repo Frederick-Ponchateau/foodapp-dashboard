@@ -5,7 +5,7 @@ const initStateMenu = {affModalMenu : false,data:null,listMenus:[],loadingMenu:f
 
 /*** Fonction du reducer ***/
 const menu = (state = initStateMenu, action) =>{
-    console.log("reducer Menu", state, action);
+   // console.log("reducer Menu", state, action);
     switch (action.type) {
         case AFF_MODAL_MENU:
                 return {...state,...action.payload}

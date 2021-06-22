@@ -1,15 +1,17 @@
-import Button from '@material-ui/core/Button'
-import Page from 'material-ui-shell/lib/containers/Page'
-import Paper from '@material-ui/core/Paper'
-import React, { useState } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { Link } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { useAuth } from 'base-shell/lib/providers/Auth'
-import { useHistory } from 'react-router-dom'
-import { useIntl } from 'react-intl'
-import { useMenu } from 'material-ui-shell/lib/providers/Menu'
+import Button from '@material-ui/core/Button';
+import Page from 'material-ui-shell/lib/containers/Page';
+import Paper from '@material-ui/core/Paper';
+import React, { useState,useContext } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { useAuth } from 'base-shell/lib/providers/Auth';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { useMenu } from 'material-ui-shell/lib/providers/Menu';
+import { FirebaseContext } from 'components/Firebase';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,20 +53,28 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SignIn = () => {
+  const {loginUser} = useContext(FirebaseContext);
   const classes = useStyles()
   const intl = useIntl()
   const history = useHistory()
-  const [username, setUsername] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   const [password, setPassword] = useState('')
   const { toggleThis } = useMenu()
   const { setAuth } = useAuth()
 
   function handleSubmit(event) {
     event.preventDefault()
-    authenticate({
-      displayName: 'User',
-      email: username,
-    })
+    if(userEmail !=''  && password != ''){
+      loginUser(userEmail ,password).then(auth => {
+        console.log(auth);
+      }).catch(err =>{
+        console.log(err);
+      })
+    }
+    // authenticate({
+    //   displayName: 'User',
+    //   email: userEmail,
+    // })
   }
 
   const authenticate = (user) => {
@@ -91,16 +101,16 @@ const SignIn = () => {
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit} noValidate>
             <TextField
-              value={username}
-              onInput={(e) => setUsername(e.target.value)}
+              value={userEmail}
+              onInput={(e) => setUserEmail(e.target.value)}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="username"
-              label={intl.formatMessage({ id: 'username' })}
-              name="username"
-              autoComplete="username"
+              id="userEmail"
+              label={intl.formatMessage({ id: 'userEmail' })}
+              name="userEmail"
+              autoComplete="userEmail"
               autoFocus
             />
             <TextField
