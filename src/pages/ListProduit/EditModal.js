@@ -48,37 +48,33 @@ const useStyles = makeStyles((theme) => ({
     let id="";
     let name = "";
     let price = "";
+    let menuId = "";
     let description ="";
  
     const classes = useStyles();
     const [valueName, setValueName] = useState(name)
     const [valuePrice, setValuePrice] = useState(price)
     const [valueCategorie, setValueCategorie] = useState("");
+    const [valueSelect, setValueSelect] = useState("");
     const [dataMenu, setDataMenu] = useState(null);
     const [age, setAge] = useState('');
     const [open, setOpen] = useState(false);
     
     
-    const {queryOneProduit,queryProduit,menus}= useContext(FirebaseContext);
+    const {queryOneProduit,queryProduit}= useContext(FirebaseContext);
     //console.log(menus)
-    
-    
-    const {produit:{affModalProduit, data}}= useSelector(state => state); /***** lire les données de mon reducers destructuré  *****/
-    useEffect(() => {
-      const getMenu =() => {menus().get().then(snapshot => {
-        let dataMenus =  snapshot.docs.map(menu=>({id:menu.id,...menu.data()}))
-        console.log(dataMenus)
-        setDataMenu(dataMenus)
-     })}
-      return () => {
-        getMenu()
-      }
-    }, [])
+    const{produit, menu}= useSelector(state=> state);
+    const {affModalProduit,data}= produit;
+    const {listMenus}=menu;
+    console.log("listMenus :",listMenus)
+    //const {produit:{affModalProduit, data},menu:{listMenus}}= useSelector(state => state); /***** lire les données de mon reducers destructuré  *****/
+   
     // console.log(affModalMenu ,data);
     if(data !== null){
       id =data.id;
       name =data.name;
       price =data.price
+      menuId =data?.menuId
       description=data.description;
     }
 
@@ -98,11 +94,12 @@ const useStyles = makeStyles((theme) => ({
   const onChangeDescription = (e)=>{
       (e.target.value != undefined)&&setValueCategorie(e.target.value);
   }
-    const save = ()=>{
+    const save = ()=>{/*
       if(data!= null){
         queryOneProduit(id).update({
           dateAdd: new Date(),
           name: valueName,
+          menuId:valueSelect,
           price: parseInt( valuePrice),
           description:valueCategorie
         })
@@ -111,37 +108,27 @@ const useStyles = makeStyles((theme) => ({
           dateAdd: new Date(),
           image:'nc',
           name: valueName,
+          menuId:valueSelect,
           price: parseInt( valuePrice),
           description:valueCategorie,
 
       })
-    }
+    }*/
+    console.log("id: ",id,"name",valueName,"position", valuePrice,"valueSelect: ", valueSelect)
        handleClose();
-        // console.log("id: ",id,"name",valueName,"position", valuePrice)
     }
 
     const handleClickOpen = () => {
       //setOpen(true);
       dispatchProduit(affProduit({affModalProduit : !affModalProduit, data : null}))
     };
-    const handleChange = (event) => {
-      setAge(event.target.value);
-    };
-
     const handleClose = () => {
       dispatchProduit(affProduit({affModalProduit : false, data : null}))
     };
     const onChangeSelect = (event) => {
-      setAge(event.target.value);
+      (event.target.value != undefined)&&setValueSelect(event.target.value);
     };
   
-    const handleCloseSelect = () => {
-      setOpen(false);
-    };
-  
-    const handleOpenSelect = () => {
-      setOpen(true);
-    };
 
     return (
       <div>
@@ -172,15 +159,11 @@ const useStyles = makeStyles((theme) => ({
             <Select
                             labelId="demo-controlled-open-select-label"
                             id="demo-controlled-open-select"
-                            open={open}
-                            onClose={handleCloseSelect}
-                            onOpen={handleOpenSelect}
-                            value={dataMenu}
                             onChange={onChangeSelect}
                             fullWidth
                           >
                     { 
-                    (dataMenu!= null)&& dataMenu.map( item=> ( 
+                    (listMenus.length>0)&& listMenus.map( item=> ( 
                     <MenuItem key={item.id} value={item.id}>
                     <em>{item.name}</em>
                   </MenuItem>

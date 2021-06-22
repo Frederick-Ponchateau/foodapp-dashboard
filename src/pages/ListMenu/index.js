@@ -20,7 +20,7 @@ import { DescriptionOutlined } from '@material-ui/icons';
 // import { IconButton } from '@material-ui/core';
 // import { Add } from '@material-ui/icons';
 import {useSelector,useDispatch} from 'react-redux'; /****** Lire mon reducer ******/
-import  { affMenu } from '../../redux/actions/menu';
+import  { affMenu, loadingMenu } from '../../redux/actions/menu';
 
 const fields = [
   {
@@ -39,16 +39,16 @@ const fields = [
 ]
 
 const Row = ({ index, data }) => {
-  const { id,name, position = '',image } = data
-  
-  const {menu:{affModalMenu}}= useSelector(state => state); /***** lire les données de mon reducers destructuré  *****/
-
+  const {menu:{affModalMenu}}= useSelector(state => state);
   const dispatchMenu = useDispatch();
+  const { id,name, position = '',image } = data
+ 
   const openEdit = () =>{
+
 
     
     dispatchMenu(affMenu({affModalMenu : !affModalMenu, data}))
-    console.log(data);
+    //console.log(data);
   }
   return (
     <div key={`${id}${name}_${index}`} style={{marginTop:10,paddingTop:10}}>
@@ -84,36 +84,17 @@ const InfoChargement = ({Message,Loading}) =>{
 }
 
 const ListMenu = () => {
-  const {menus} = useContext(FirebaseContext);
-  const [listMenu, setlistMenu] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true)
-
-    const unsubQuery = menus().onSnapshot(snapshot=>{   
-      console.log("snapshot type",snapshot,snapshot.type)  
-      let tempListMenu=[];
-      !snapshot.empty&&snapshot.forEach(item=>{
-        tempListMenu.push({id:item.id,...item.data()})      
-      } )
-      setTimeout(()=>{
-        setLoading(false)
-        setlistMenu(tempListMenu)
-      },3000)
-    })
-    return () => {
-      unsubQuery()
-    }
-  }, [])
-
+  
+  const{menu: {listMenus,loadingMenu}} = useSelector(state => state);
+  
   return (
   
      
-     !loading && listMenu.length>0? <PageListMenu listMenu={listMenu}/>:              
+    !loadingMenu && listMenus.length>0? <PageListMenu listMenu={listMenus}/>:              
       
      
       <InfoChargement Message={"Loading"}
-                        Loading={loading} /> 
+                        Loading={loadingMenu} /> 
       
    
   )
